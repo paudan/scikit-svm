@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "cython>=3.0", "numpy>=1.20"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scikit-svm"
+version = "1.0.0"
+description = "A collection of SVM classifiers and regressors with a scikit-learn compatible interface"
+readme = "README.md"
+license = { text = "Academic and Research Use Only — see LICENSE" }
+authors = [
+    { name = "Paulius Danenas", email = "danpaulius@gmail.com" },
+]
+keywords = [
+    "svm", "support-vector-machine", "machine-learning", "classification", "regression",
+    "lagrangian-svm", "smooth-svm", "least-squares-svm", "laplacian-svm", "proximal-svm",
+    "liblinear", "ocas", "core-vector-machine", "ball-vector-machine",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Machine Learning",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "License :: Free for non-commercial use",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.20",
+    "scikit-learn>=1.0",
+    "liblinear-official>=2.47",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "build>=0.10",
+    "cython>=3.0",
+]
+
+[tool.setuptools.packages.find]
+# Only include the scikit_svm package; exclude root-level .py files
+include = ["scikit_svm", "scikit_svm.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.cibuildwheel]
+build-frontend = {name="pip", args=["--prefer-binary"]}
+skip = ["pp*", "*musllinux*"]
+test-requires = ["wheel"]
+test-sources = ["tests"]
+test-command = "pytest tests"
+
+test-environment = { PIP_PREFER_BINARY="1" }

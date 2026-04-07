@@ -1,0 +1,10 @@
+include pyproject.toml
+include setup.py
+include README.md
+include LICENSE
+recursive-include scikit_svm *.py *.pyx *.pxd
+recursive-include src/libCVM *.cpp *.h *.md
+recursive-include src/bsvm *.cpp *.c *.h
+recursive-include src/svm_light *.c *.h
+recursive-include src/mySVM *.cpp *.h
+recursive-include src/libocas *.c *.h

@@ -1,0 +1,56 @@
+name: "Build Python wheels"
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  repository-projects: write
+
+jobs:
+  make-wheels:
+    name: Make ${{ matrix.os }} ${{ matrix.cibw_arch }} wheels
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          # - macos-14-large # Intel
+          # - macos-14-xlarge # ARM64
+          - ubuntu-24.04 # Intel
+          # - ubuntu-24.04-arm # ARM64
+          - windows-latest
+        cibw_arch: ["native"]
+        # Build one wheel (ABI = none) using first build spec, then test on all python versions.
+        cibw_build: ["cp39-* cp310-*"]
+      fail-fast: false
+
+    steps:
+      - name: "Set environment variables (Windows)"
+        shell: pwsh
+        if: startsWith(runner.os, 'Windows')
+        run: |
+          (Get-ItemProperty "HKLM:System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
+          $os_version = (Get-CimInstance Win32_OperatingSystem).version
+          Echo "OS_VERSION=$os_version" >> $env:GITHUB_ENV
+
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.4.1
+        env:
+          PIP_PREFER_BINARY: yes
+          CIBW_ENVIRONMENT: >
+            MACOSX_DEPLOYMENT_TARGET="${{ matrix.os == 'macos-14-large' && 10.11 || 11.0 }}"
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          CIBW_BUILD: ${{ matrix.cibw_build }}
+          CIBW_ARCHS: ${{ matrix.cibw_arch }}
+          CIBW_BUILD_FRONTEND: build
+          CIBW_TEST_REQUIRES: pytest
+
+      - name: Release wheels
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files:  "./**/*.whl"
