@@ -507,4 +507,19 @@ pytest tests/test_ocas.py::TestSVMOCASClassifier::test_high_accuracy_separable -
 
 ## License
 
+If you find this software useful, please cite it as 
+
+```bibtex
+@misc{scikitsvm2026,
+  author = {Danenas, Paulius},
+  month = {3},
+  title = {SVM classifiers for the scikit-learn library},
+  url = {https://github.com/paudan/scikit-svm},
+  year = {2026}
+}
+
+```
+
+All credits go to the authors of the original implementations
+
 Copyright © 2026 Paulius Danenas. See [LICENSE](LICENSE) for full terms.

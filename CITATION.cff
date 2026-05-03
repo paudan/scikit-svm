@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: 'SVM classifiers for the scikit-learn library'
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Paulius
+    family-names: Danenas
+    email: danpaulius@gmail.com
+    affiliation: Kaunas University of Technology
+    orcid: 'https://orcid.org/0000-0002-2054-0624'
+repository-code: 'https://github.com/paudan/scikit-svm'
+abstract: >-
+  A collection of Support Vector Machine classifiers and
+  regressors with a scikit-learn compatible interface 
+keywords:
+  - SVM
+  - support vector machines
+  - machine learning
+  - classification
+  - regression
+license: Apache-2.0
+version: '1.0'
+date-released: '2026-03-31'
